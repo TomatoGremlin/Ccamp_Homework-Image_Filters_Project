@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int main(void){
+int main(){
  // 1. P = ? , S = ?
    double w, h, P, S;
    printf("Enter values for height and width of a rectangle:\n");
