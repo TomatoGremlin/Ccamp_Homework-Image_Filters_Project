@@ -1,6 +1,19 @@
 #include <stdio.h>
 #include <math.h>
 // 2. test functions for double
+
+//ulp Units in the Last Place
+bool AlmostEqualUlpsAndAbs(float , float ,float , int);
+//relative epsilon
+bool AlmostEqualRelative(float , float , float);
+// fixed epsilon
+int FixedEps_compare(float , float );
+// adaptive epsilon
+int AdaptEps_compare(float , float );
+//basic
+int Basic_compare(float , float );
+
+
 int main(void){
     float a = 1000.0f * 0.1f;
     float b = 0.0f;
