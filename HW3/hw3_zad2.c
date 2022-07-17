@@ -1,9 +1,6 @@
 #include <stdio.h>
 #include <math.h>
 // 2. test functions for double
-
-
-
 int main(void){
     float a = 1000.0f * 0.1f;
     float b = 0.0f;
@@ -26,14 +23,28 @@ int main(void){
     return 0;
 }
 //ulp Units in the Last Place
+bool AlmostEqualUlpsAndAbs(float A, float B,float maxDiff, int maxUlpsDiff)
+{
+    
+    float absDiff = fabs(A - B);
+    if (absDiff <= maxDiff)
+        return true;
 
-// build-in compare operator
-int floatCompare1(float a, float b){
-    return a == b;
+    Float_t uA(A);
+    Float_t uB(B);
+
+    // Different signs means they do not match.
+    if (uA.Negative() != uB.Negative())
+        return false;
+
+    // Find the difference in ULPs.
+    int ulpsDiff = abs(uA.i - uB.i);
+    if (ulpsDiff <= maxUlpsDiff)
+        return true;
+    return false;
 }
 //relative epsilon
-bool AlmostEqualRelative(float A, float B,
-                         float maxRelDiff = FLT_EPSILON)
+bool AlmostEqualRelative(float A, float B, float maxRelDiff = FLT_EPSILON)
 {
     // Calculate the difference.
     float diff = fabs(A - B);
@@ -47,11 +58,16 @@ bool AlmostEqualRelative(float A, float B,
     return false;
 }
 // fixed epsilon
-int floatCompare2(float a, float b){
+int FixedEps_compare(float a, float b){
     return fabs(a - b) < 1.0e-5f;
 }
 
 // adaptive epsilon
-int floatCompare3(float a, float b){
+int AdaptEps_compare(float a, float b){
     return fabs(a - b) < 1.0e-5f * fmax(fabs(a), fabs(b));
+}
+
+//basic
+int Basic_compare(float a, float b){
+    return a == b;
 }
