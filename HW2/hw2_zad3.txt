@@ -1,0 +1,2 @@
+cat numbers.txt | sort -n | head -n 1
+cat numbers.txt | sort -n | tail -n 1
