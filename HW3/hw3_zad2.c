@@ -2,20 +2,7 @@
 #include <math.h>
 // 2. test functions for double
 
-// build-in compare operator
-int floatCompare1(float a, float b){
-    return a == b;
-}
 
-// fixed epsilon
-int floatCompare2(float a, float b){
-    return fabs(a - b) < 1.0e-5f;
-}
-
-// adaptive epsilon
-int floatCompare3(float a, float b){
-    return fabs(a - b) < 1.0e-5f * fmax(fabs(a), fabs(b));
-}
 
 int main(void){
     float a = 1000.0f * 0.1f;
@@ -38,4 +25,33 @@ int main(void){
     }
     return 0;
 }
+//ulp Units in the Last Place
 
+// build-in compare operator
+int floatCompare1(float a, float b){
+    return a == b;
+}
+//relative epsilon
+bool AlmostEqualRelative(float A, float B,
+                         float maxRelDiff = FLT_EPSILON)
+{
+    // Calculate the difference.
+    float diff = fabs(A - B);
+    A = fabs(A);
+    B = fabs(B);
+    // Find the largest
+    float largest = (B > A) ? B : A;
+
+    if (diff <= largest * maxRelDiff)
+        return true;
+    return false;
+}
+// fixed epsilon
+int floatCompare2(float a, float b){
+    return fabs(a - b) < 1.0e-5f;
+}
+
+// adaptive epsilon
+int floatCompare3(float a, float b){
+    return fabs(a - b) < 1.0e-5f * fmax(fabs(a), fabs(b));
+}
