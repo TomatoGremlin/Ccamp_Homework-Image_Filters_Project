@@ -12,26 +12,34 @@ int FixedEps_compare(float , float );
 int AdaptEps_compare(float , float );
 //basic
 int Basic_compare(float , float );
-
-
 int main(void){
-    float a = 1000.0f * 0.1f;
+    float a = 2010.0f * 0.2f;
     float b = 0.0f;
-    for (int i = 0; i < 1000; i++, b += 0.1f);
-    if (floatCompare1(a, b)){
-        printf("== Equals\n");
+    for (int i = 0; i < 1000; i++, b += 0.2f);
+    if (FixedEps_compare(a, b)){
+        printf("With fixed epsilon: Equals\n");
     } else {
-        printf("== Not equals\n");
+        printf("With fixed epsilon: Not equals\n");
     }
-    if (floatCompare2(a, b)){
-        printf("fixed E: Equals\n");
+    if (AdaptEps_compare(a, b)){
+        printf("With adaptive epsilon: Equals\n");
     } else {
-        printf("fixed E: Not equals\n");
+        printf("With adaptive epsilon: Not equals\n");
     }
-    if (floatCompare3(a, b)){
-        printf("Adaptive E: Equals\n");
+    if (AlmostEqualUlpsAndAbs(a, b)){
+        printf("With ulp: Equals\n");
     } else {
-        printf("Adaptive E: Not equals\n");
+        printf("With ulp: Not equals\n");
+    }
+    if (AlmostEqualRelative(a, b)){
+        printf("With relative epsilon: Equals\n");
+    } else {
+        printf("With relative epsilon: Not equals\n");
+    }
+    if (Basic_compare(a, b)){
+        printf("With basic ==: Equals\n");
+    } else {
+        printf("With basic == : Not equals\n");
     }
     return 0;
 }
