@@ -16,8 +16,8 @@ int main(void){
             printf("S = %.2lf\n", S);
             printf("P = %.2lf\n", P);
         }
-      // rectangle(w, h, S, P);
+      
     }
-    return 0;
+   
     return 0;
 }
