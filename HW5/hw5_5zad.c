@@ -1,41 +1,19 @@
 #include <stdio.h>
-#include <stdarg.h> 
-#include <float.h>
 #include <stdint.h>
 
-int checkBit(uint64_t *mask, size_t n, size_t bit){
-    if (n * sizeof(*mask)*__CHAR_BIT__ <= bit){
-        return -1;
+unsigned onesCount(uint64_t mask){
+    unsigned ones = 0;
+    for (int j = 0; j < sizeof(mask)*8; j++){ // bitovete
+      ones += !!(mask & (1ULL << j));
     }
-    int index = bit / (sizeof(*mask) * __CHAR_BIT__);;
-    int b = bit % (sizeof(*mask) * __CHAR_BIT__);
-    return !!(mask[index] & (1ull << b)); 
-}
-
-size_t bitsNCount (size_t maskcount, size_t bitcount, ...){
-    size_t masks = 0;
-    va_list args;
-    va_start(args,maskcount);
-
-    for (int i = 0; i < maskcount; i++){
-        int mask = va_arg(args, int);
-        int maskBists = 0;
-        for (size_t i = 0; i < sizeof(mask)*8; i++){
-            maskBists += checkBit(mask, i);
-        }
-        masks += (maskBists == bitcount);
-  
-    }
-    va_end(args);
-    
-    return masks;
+    printf ("Number of ones in the mask = %u\n", ones);
+    return ones;
 }
 
 int main() {
-    
 
-    return 0;
+   onesCount(0x0a); // 2 ones
+   onesCount(0xaaaa); // 8 ones
+   onesCount(0b1010111110111); // 10 ones
+   return 0;
 }
-
-
-
