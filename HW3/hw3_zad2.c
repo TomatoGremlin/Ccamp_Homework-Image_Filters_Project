@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <math.h>
+#include <stdbool.h>
 // 2. test functions for double
 
 //ulp Units in the Last Place
