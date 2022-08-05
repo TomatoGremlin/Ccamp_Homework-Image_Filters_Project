@@ -61,7 +61,7 @@ int write_ppm_color_bitmap(const char *filename, PPM_Image_Buffer *buf){
 
   for ( int i = 0; i < buf->rown * buf->coln; i++)
   {
-    fprintf(f, "%u %u %u", buf->data[i].red, buf->data[i].green, buf->data[i].blue );
+    fprintf(f, "%u %u %u\n", buf->data[i].red, buf->data[i].green, buf->data[i].blue );
   }
   
   fclose(f);
