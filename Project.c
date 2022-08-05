@@ -24,11 +24,11 @@ int read_ppm_color_bitmap(const char* filename, PPM_Image_Buffer* buf) {
     return -1;
   }
   //--------------------
-  fseek(f, 2, SEEK_CUR); // to skip P3
+  fseek(f, 2, SEEK_CUR);
 
   fscanf(f, "\n%d %d\n", &buf->rown, &buf->coln);
 
-  fseek(f, 3, SEEK_CUR); // to skip 255
+  fseek(f, 3, SEEK_CUR);
   fscanf(f, "\n");
 
   int size = buf->rown * buf->coln;
@@ -42,7 +42,6 @@ int read_ppm_color_bitmap(const char* filename, PPM_Image_Buffer* buf) {
   fclose(f);
   return 0;
 }
-
 int write_ppm_color_bitmap(const char *filename, PPM_Image_Buffer *buf){
   FILE* f = fopen (filename, "w+");
   
@@ -52,11 +51,11 @@ int write_ppm_color_bitmap(const char *filename, PPM_Image_Buffer *buf){
     return -1;
   }
   //--------------------
-  fseek( f,2,SEEK_CUR); // to skip P3
+  fseek( f,2,SEEK_CUR);
 
   fprintf(f, "\n%d %d\n", buf->rown, buf->coln);
 
-  fseek( f,3,SEEK_CUR); // to skip 255
+  fseek( f,3,SEEK_CUR);
   fprintf(f,"\n");
 
   for ( int i = 0; i < buf->rown * buf->coln; i++)
@@ -79,21 +78,23 @@ void filter_color_component(PPM_Image_Buffer* buf, unsigned int rgb_mask){
       if (!!(rgb_mask & (1 << bit)) == 0 ) // check if current bit is 0
       { 
         // check the position of the 0 and remove the value for the colour
-        if (bit == 0) buf -> data[i].red = 0;
+        if (bit == 0) buf -> data[i].blue = 0;
         else if (bit == 1)buf -> data[i].green = 0;
-        else buf -> data[i].blue = 0;
+        else buf -> data[i].red = 0;
       }
     }
  }
 }
 
+
 int main() {
   PPM_Image_Buffer test;
   PPM_Image_Buffer* buf = &test;
   read_ppm_color_bitmap("image1.txt", buf);
-
-  filter_color_component(buf, 1);
+  
+  filter_color_component(buf, 5);
   write_ppm_color_bitmap("image1.txt", buf);
+
 
   free(buf->data);
   return 0;
