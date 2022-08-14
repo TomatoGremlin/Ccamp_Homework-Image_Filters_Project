@@ -2,6 +2,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <pthread.h>
+#include <time.h>
 
 int random_generate(int min, int max){
    return min + rand()% (max - min + 1);
@@ -18,6 +19,7 @@ void *routine1(void* arg){
 
 int main(int argc, char **argp)
 {
+    srand(time(NULL));
     unsigned N = atoi(argp[1]);
     pthread_t threads[N];
 
