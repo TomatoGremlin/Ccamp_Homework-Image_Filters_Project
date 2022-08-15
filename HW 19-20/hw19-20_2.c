@@ -5,65 +5,67 @@
 
 int comparator(const void *p, const void *q)
 {
-    // Get the values at given addresses
     int l = *(const int *)p;
     int r = *(const int *)q;
-  
-    // both odd, put the greater of two first.
+
     if ((l&1) && (r&1))
         return (r-l);
   
-    // both even, put the smaller of two first
+    
     if ( !(l&1) && !(r&1) )
         return (l-r);
   
-    // l is even, put r first
+
     if (!(l&1))
         return 1;
-  
-    // l is odd, put l first
+
     return -1;
 }
 
 void *routine1(void* arg){
-    FILE* read_binary = fopen("file[i]", "rb");
-    FILE* write_decimal = fopen("file[i]", "w+");
+    char* file_name = (char*) arg;
+    FILE* read_binary = fopen(file_name, "rb");
+    FILE* write = fopen(file_name, "wb+");
     
     int lines = 0 ;
-    while (EOF)
+    char new_line = getc(read_binary);
+    while (new_line != EOF)
     {
-        lines ++;
+        if (new_line == '\n')
+            lines++;
+        new_line = getc(read_binary);
     }
+
     rewind(read_binary);
-    int number [10];
+    int number [lines];
    
     fread( number, sizeof(int), lines , read_binary);
     
-    qsort(number, 10 , sizeof(int), comparator);
+    qsort(number, lines , sizeof(int), comparator);
     
-    for (size_t i = 0; i < 10; i++)
+    for (size_t i = 0; i < lines; i++)
     {
         fprintf(write, "%d\n", number[i]);
     }
 
     fclose(read_binary);
-    fclose(write_decimal);
+    fclose(write);
 }
 
 int main(int argc, char **argp)
 {
-    unsigned files = argc - 1;
-    pthread_t threads[files];
+   
+    pthread_t threads[argc - 1];
 
-    for (int i = 0; i < files; i++)
+    for (int i = 0; i < argc-1; i++)
     {
-        if (pthread_create(&threads[i], NULL, routine1, NULL))
+        if (pthread_create(&threads[i], NULL, routine1, &argp[i+1]))
         {
             perror("thread create");
             return EXIT_FAILURE;
         }
     }
-    for (int i = 0; i < files; i++)
+    for (int i = 0; i < argc-1; i++)
     {
         if (pthread_join(threads[i], NULL))
         {
